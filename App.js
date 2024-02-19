@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 
 const App = () => {
   const [goalText, setGoalText] = useState('');
@@ -37,20 +37,19 @@ const App = () => {
         />
         <Button onPress={addGoal} title="Add Goal" color="#007bff" />
       </View>
-      <FlatList
-        style={styles.goalContainer}
-        data={goals}
-        renderItem={({ item, index }) => (
-          <View style={styles.goalItem}>
-            <Text style={styles.goalText}>{item}</Text>
-            <TouchableOpacity onPress={() => deleteGoal(index)} style={styles.deleteButton}>
-              <Text style={styles.deleteButtonText}>Delete</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      <StatusBar style="auto" />
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.goalContainer}>
+          {goals.map((goal, i) => (
+            <View key={i} style={styles.goalItem}>
+              <Text style={styles.goalText}>{goal}</Text>
+              <TouchableOpacity onPress={() => deleteGoal(i)} style={styles.deleteButton}>
+                <Text style={styles.deleteButtonText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+
     </View>
   );
 };
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
   appBarText: {
     color: '#fff',
     fontSize: 24,
-    paddingTop: 30,
+    paddingTop:20,
     fontWeight: 'bold',
   },
   inputContainer: {
@@ -101,8 +100,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 7,
     borderRadius: 6,
-    backgroundColor: "blue",
+    backgroundColor: "#5e0acc",
     color: 'white'
+
   },
   deleteButton: {
     backgroundColor: 'red',
@@ -114,6 +114,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 19,
   },
+
+
 });
 
 export default App;
